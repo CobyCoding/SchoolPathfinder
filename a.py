@@ -10,7 +10,7 @@ Meaning there is some bugs and some room coordinates are wrong.
 
 # Modules that i need
 
-import pygam
+import pygame
 import math
 from queue import PriorityQueue  # This is a module to help program the alogorithm
 import sys
@@ -249,7 +249,7 @@ def get_clicked_pos(pos, rows, width):
     """This function translate a mouse click position into a row and col.
     """
 
-    gap = width // rows # Work out the width of each spot
+    gap = width // rows  # Work out the width of each spot
     y, x = pos
 
     row = y // gap
@@ -270,12 +270,12 @@ def reconstruct_path(came_from, current, draw):
     while current in came_from:
         current = came_from[current]
         current.make_path()
-        draw() # Redraw the screen with the new path spot
+        draw()  # Redraw the screen with the new path spot
 
 
 def Algorithm(draw, grid, start, end):
     # This function will run the algorithm to calculate the shortest route between the end pos and the start pos
-    
+
     # Default variables
     count = 0
     open_set = PriorityQueue()
@@ -349,10 +349,9 @@ def make_barrier(grid, ROWS, floor):
     We add new coordinates to this file via the draw.py file.
     """
 
-
-    if floor == "0": # If bottom floor
+    if floor == "0":  # If bottom floor
         f = open(
-            "f1\\locs.txt", "r") # The barrier coordinates for floor 1
+            "f1\\locs.txt", "r")  # The barrier coordinates for floor 1
         # Read all the lines
         lines = f.readlines()
         for line in lines:
@@ -365,7 +364,7 @@ def make_barrier(grid, ROWS, floor):
         f.close()
 
         f = open(
-            "f1\\locsroom1.txt", "r") # The room coordinates for floor 1
+            "f1\\locsroom1.txt", "r")  # The room coordinates for floor 1
         # Read all the lines
         lines = f.readlines()
         for line in lines:
@@ -375,7 +374,7 @@ def make_barrier(grid, ROWS, floor):
         f.close()
     else:
         f = open(
-            "f2\\locs.txt", "r") # The barrier coordinates for floor 2
+            "f2\\locs.txt", "r")  # The barrier coordinates for floor 2
         # Read all the lines
         lines = f.readlines()
         for line in lines:
@@ -389,7 +388,7 @@ def make_barrier(grid, ROWS, floor):
         f.close()
 
         f = open(
-            "f2\\locsroom1.txt", "r") # The room coordinates for floor 2
+            "f2\\locsroom1.txt", "r")  # The room coordinates for floor 2
         # Read all the lines
         lines = f.readlines()
         for line in lines:
@@ -426,7 +425,8 @@ def GetStartAndEndPosition(RoomLocations, startroom, endroom, grid):
     startSpot.make_start()
     endSpot.make_end()
 
-    Spots = [startSpot, endSpot, startloc[2], endloc[2]] # Index 2 - 3 are the floor numbers of each location
+    # Index 2 - 3 are the floor numbers of each location
+    Spots = [startSpot, endSpot, startloc[2], endloc[2]]
     return Spots
 
 
@@ -504,10 +504,11 @@ def MultifloorCheck(EndStartPositions, grid, startRoom, win, ROWS, width):
         "8": "32 95 45 73"
     }
 
-    if EndStartPositions[2] != EndStartPositions[3]: # If the floor value of the starting and ending positions are different
+    # If the floor value of the starting and ending positions are different
+    if EndStartPositions[2] != EndStartPositions[3]:
         start = EndStartPositions[0]
 
-        end = StaitLocations[ClosestStair[startRoom]]  # Get the stair location
+        end = StairLocations[ClosestStair[startRoom]]  # Get the stair location
         end = end.split(" ")
         Endx = int(end[0])
         Endy = int(end[1])
@@ -529,7 +530,7 @@ def MultifloorCheck(EndStartPositions, grid, startRoom, win, ROWS, width):
 
         # Remake the grid for the other floor
         grid = make_grid(ROWS, width)
-        grid = make_barrier(grid, width, ROWS, WIN, EndStartPositions[3])
+        grid = make_barrier(grid, ROWS, EndStartPositions[3])
 
         return [grid[int(ofloorEnd[2])][int(ofloorEnd[3])], grid]
 
@@ -541,10 +542,10 @@ def ScreenShot():
     """This function will take a screenshot of the screen. In the future it will have a meaningful name but for now it is just a random number.
     """
     Fileid = str(random.randint(0, 100000))
-    pygame.image.save(WIN, "screenshot" + Fileid + ".jpg") # Take screenshot
+    pygame.image.save(WIN, "screenshot" + Fileid + ".jpg")  # Take screenshot
 
     os.rename("screenshot" + Fileid + ".jpg",
-              "Screenshots\\screenshot" + Fileid + ".jpg") # Move screenshot into Screeenshots folder
+              "Screenshots\\screenshot" + Fileid + ".jpg")  # Move screenshot into Screeenshots folder
 
     ScreenshotList.append(
         "Screenshots\\screenshot" + Fileid + ".jpg")
@@ -623,20 +624,20 @@ def main(StartRoom, EndRoom, win=WIN, width=WIDTH):
     }
 
     EndStartSpots = GetStartAndEndPosition(
-    RoomLocations, StartRoom, EndRoom, grid) # Get the start and end spots.
+        RoomLocations, StartRoom, EndRoom, grid)  # Get the start and end spots.
     start = EndStartSpots[0]
     end = EndStartSpots[1]
 
-    grid = make_barrier(grid, width, ROWS, WIN, EndStartSpots[2])
+    grid = make_barrier(grid, ROWS, EndStartSpots[2])
 
-    NewFloorData = MultifloorCheck(EndStartSpots, grid, StartRoom, WIN, ROWS, width)
-
-    start = NewFloorData[0]
-    start.make_start()
-    grid = NewFloorData[1]
-    end = grid[end.get_pos()[0]][end.get_pos()[1]]
-    end.make_end()
-
+    NewFloorData = MultifloorCheck(
+        EndStartSpots, grid, StartRoom, WIN, ROWS, width)
+    if NewFloorData:
+        start = NewFloorData[0]
+        start.make_start()
+        grid = NewFloorData[1]
+        end = grid[end.get_pos()[0]][end.get_pos()[1]]
+        end.make_end()
 
     # Infinate loop
     while run:
@@ -671,6 +672,7 @@ def main(StartRoom, EndRoom, win=WIN, width=WIDTH):
 
     # When while loop breaks end game
     pygame.quit()
+
 
 # FOR DEBUGGING ONLY. THIS FILE SHOULD NEVER BE RAN AS A STANDALONE FILE UNLESS FOR DEBUGGING.
 if __name__ == "__main__":
