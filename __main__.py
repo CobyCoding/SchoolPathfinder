@@ -41,7 +41,7 @@ def UpdateQueuePosition(bot, one, chat_id=None, item=None):
 
 
 def Queue(bot):
-    """This function will be ran as a sperate thread and will handle queing users requests
+    """This function will be ran as a separate thread and will handle queueing users requests
 
     Args:
         bot (TelegramBot): The bot used to send messages

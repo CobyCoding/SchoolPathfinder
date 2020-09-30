@@ -2,7 +2,7 @@
 This project was written by: Coby Chapman.
 
 The Idea:
-Make a algorith that any school could use to help year 7 pupils find there way between class rooms.
+Make a algorithm that any school could use to help year 7 pupils find there way between class rooms.
 
 CURRENTLY UNDER DEVELOPMENT
 Meaning there is some bugs and some room coordinates are wrong.
@@ -330,12 +330,12 @@ def GetStartAndEndPosition(RoomLocations, startroom, endroom, grid):
     try:
         startloc = RoomLocations[startroom]
     except KeyError:
-        return f"{startroom} is not currently in our database or it is not a valid room."
+        return f"[USER ERROR] {startroom} is not currently in our database or it is not a valid room."
     
     try:
         endloc = RoomLocations[endroom]
     except KeyError:
-        return f"{endroom} is not currently in our database or it is not a valid room."
+        return f"[USER ERROR] {endroom} is not currently in our database or it is not a valid room."
 
     startloc = startloc.split(" ")
     endloc = endloc.split(" ")

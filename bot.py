@@ -1,4 +1,4 @@
-""" This file will store the TelegramBot class this class will deal with the API.
+""" This file will store the TelegramBot class. This class will deal with the API.
 """
 
 # Imports
@@ -8,7 +8,7 @@ import telepot
 
 
 class TelegramBot():
-    """This class this class will deal with the telegram API.
+    """This class will deal with the telegram API.
 
     Note:
     Some things in this class are done via the python module telepot.
