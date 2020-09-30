@@ -2,7 +2,7 @@ import time
 import signal
 from threading import Thread
 import threading
-import a
+import pathFinder
 from bot import TelegramBot
 import sys
 import os
@@ -97,7 +97,7 @@ def run():
                 else:
                     _from = item["message"]["from"]["id"]
                     if len(message) == 2:
-                        returnedData = a.main(message[0], message[1])
+                        returnedData = pathFinder.main(message[0], message[1])
                         # If there is a issue in the algorithm
                         if not isinstance(returnedData, list):
                             bot.send_message(returnedData, _from)
